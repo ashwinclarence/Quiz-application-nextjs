@@ -15,30 +15,47 @@ export default function QuestionQuiz({
   question,
 }: QuestionType) {
   const dispatch = useAppDispatch();
+
   const currentQuestionIndex = useAppSelector(
     (state) => state.quiz.currentQuestionIndex
   ) as number;
+
   const workoutQuestionCount = useAppSelector(
     (state) => state.quiz.workoutQuestionCount
   ) as number;
+
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState<number | null>(
     null
   );
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState<boolean>(false);
 
   // function to handle the correct answer check
-  const handleSubmitAnswer = (answer: string, index: number) => {
-    if (isAnswerSubmitted) return;
-    setIsAnswerSubmitted(true);
-    if (answer === correctAnswer) {
-      dispatch(incrementScore());
+  const handleSubmitAnswer = (answer: string) => {
+    try {
+      if (isAnswerSubmitted) return;
+      setIsAnswerSubmitted(true);
+      if (answer === correctAnswer) {
+        dispatch(incrementScore());
+      }
+      getCorrectAnswerIndex();
+      setTimeout(() => {
+        dispatch(setNextQuestionIndex());
+        setCorrectAnswerIndex(null);
+        setIsAnswerSubmitted(false);
+      }, 1000);
+    } catch (error: any) {
+      console.log(error.message);
     }
-    setCorrectAnswerIndex(index);
-    setTimeout(() => {
-      dispatch(setNextQuestionIndex());
-      setCorrectAnswerIndex(null);
-      setIsAnswerSubmitted(false);
-    }, 1000);
+  };
+
+  // function to find the correct index
+  const getCorrectAnswerIndex = () => {
+    try {
+        let correctIndex:number =Number(options.indexOf(correctAnswer));
+        setCorrectAnswerIndex(correctIndex);
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
   return (
     <>
@@ -62,7 +79,7 @@ export default function QuestionQuiz({
                       : "bg-red-500"
                     : "bg-blue-500"
                 }`}
-                onClick={() => handleSubmitAnswer(option, index)}
+                onClick={() => handleSubmitAnswer(option)}
               >
                 {option}
               </button>

@@ -40,10 +40,12 @@ export default function Home() {
     try {
       e.preventDefault();
 
+      if (!selectedQuestionsCount) {
+        toast.error("Please Enter the number of");
+        return;
+      }
+
       let response = await axios.get(`https://opentdb.com/api.php?amount=${selectedQuestionsCount}&category=${selectedCategory}`);
-
-      console.log(response.data.results);
-
 
       // this is the answers shuffle algorithm called Fisher-Yates (Knuth) Shuffle algorithm, 
       const shuffleAnswers = (answers:string[]) => {

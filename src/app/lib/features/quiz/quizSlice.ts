@@ -32,13 +32,22 @@ const quizSlice = createSlice({
   initialState,
   reducers: {
     setQuestions(state, action: PayloadAction<QuestionType[]>) {
-          state.questions = action.payload;
-          state.currentQuestionIndex = 0;
-          state.score=0
+      state.questions = action.payload;
+      state.currentQuestionIndex = 0;
+      state.score = 0;
+
+      if (state.workoutQuestionCount === 0) {
+        state.workoutQuestionCount =
+          state.totalQuestions < 10 ? state.totalQuestions : 10;
+      }
     },
 
     setCategory(state, action: PayloadAction<number>) {
       state.category = action.payload;
+      if (state.workoutQuestionCount === 0) {
+        state.workoutQuestionCount =
+          state.totalQuestions < 10 ? state.totalQuestions : 10;
+      }
     },
 
     setTotalQuestionCount(state, action: PayloadAction<number>) {
@@ -54,19 +63,19 @@ const quizSlice = createSlice({
     },
 
     setNextQuestionIndex(state) {
-      if (state.workoutQuestionCount-1 > state.currentQuestionIndex) {
+      if (state.workoutQuestionCount - 1 > state.currentQuestionIndex) {
         state.currentQuestionIndex += 1;
       }
     },
 
     resetQuiz(state) {
-      state.questions = [],
-        state.answers = [],
-        state.currentQuestionIndex = 0,
-        state.score = 0,
-        state.category = 0,
-        state.totalQuestions = 0,
-        state.workoutQuestionCount = 0;
+      (state.questions = []),
+        (state.answers = []),
+        (state.currentQuestionIndex = 0),
+        (state.score = 0),
+        (state.category = 0),
+        (state.totalQuestions = 0),
+        (state.workoutQuestionCount = 0);
     },
   },
 });
