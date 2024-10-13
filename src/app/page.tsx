@@ -83,7 +83,7 @@ export default function Home() {
   }
 
   return (
-    <form className="text-center min-h-screen container mx-auto p-8" onSubmit={handleStartQuiz}>
+    <form className="flex flex-col items-center justify-center min-h-screen container mx-auto" onSubmit={handleStartQuiz}>
       <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
         Test Your Knowledge in a Flash!{" "}
       </h1>
