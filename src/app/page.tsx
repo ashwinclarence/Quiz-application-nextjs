@@ -1,6 +1,7 @@
 "use client";
 
 import DropDownMenu from "@/components/dropDownMenu";
+import QuestionCountDropDown from "@/components/questionCount";
 import axios from "axios";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
@@ -46,7 +47,7 @@ export default function Home() {
       </p>
       <div className="flex justify-center gap-8 my-8">
         <DropDownMenu title="Category" values={[...category]} />
-        <DropDownMenu title="Number Of Questions" values={[...category]} />
+        <QuestionCountDropDown />
       </div>
       <Link
         href="/quiz"
