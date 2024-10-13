@@ -1,3 +1,5 @@
+import { setCategory } from "@/app/lib/features/quiz/quizSlice";
+import { useAppDispatch } from "@/app/lib/hooks";
 import { CategoryType } from "@/app/page";
 import {
   Select,
@@ -12,7 +14,13 @@ type DropDownType = {
     values: CategoryType[];
 };
 
+
+
 export default function DropDownMenu({ title,values }: DropDownType) {
+  const dispatch = useAppDispatch();
+  const handleSelectCategory = (id:number,category:string) => {
+    dispatch(setCategory(category));
+  }
   return (
     <Select>
       <SelectTrigger className="w-[280px]">
@@ -20,7 +28,7 @@ export default function DropDownMenu({ title,values }: DropDownType) {
       </SelectTrigger>
           <SelectContent>
               {values.map((ele) => (
-                  <SelectItem key={ele.id} value={ele.name}>{ele.name}</SelectItem>
+                  <SelectItem key={ele.id} value={ele.name} onClick={()=>handleSelectCategory(ele.id,ele.name)}>{ele.name}</SelectItem>
               ))}
       </SelectContent>
     </Select>
