@@ -1,14 +1,33 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import quizReducer from './features/quiz/quizSlice';
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
+import { ThunkDispatch } from '@reduxjs/toolkit';
+import { PersistPartial } from 'redux-persist/es/persistReducer';
 
-export const store = () => {
-    return configureStore({
-        reducer: {
-            quiz:quizReducer
-        }
-    })
-}
+const persistConfig = {
+  key: 'root',
+  storage,
+};
 
-export type AppStore = ReturnType<typeof store>;
+const rootReducer = combineReducers({
+  quiz: quizReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// Directly export the store object
+const store = configureStore({
+  reducer: persistedReducer, // persist reducer is applied here
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: false,
+  }),
+});
+
+export const persistor = persistStore(store);
+
+export type AppStore = typeof store;
 export type RootState = ReturnType<AppStore['getState']>;
-export type AppDispatch = AppStore['dispatch'];
+export type AppDispatch = ThunkDispatch<RootState, undefined, any>;
+
+export default store;

@@ -1,28 +1,36 @@
-import { useAppSelector } from "@/app/lib/hooks";
+import { setWorkoutQuestionCount } from "@/app/lib/features/quiz/quizSlice";
+import { useAppDispatch, useAppSelector } from "@/app/lib/hooks";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-
 
 export default function QuestionCountDropDown() {
-  const [count, setCount] = useState(0);
   const [disabled, setDisabled] = useState(false);
 
-  let totalQuestionCount = useAppSelector((state) => state.quiz.totalQuestions);
+  let totalQuestionCount = Number(
+    useAppSelector((state) => state.quiz.totalQuestions)
+  );
+  const dispatch = useAppDispatch();
 
+  // if the count is zero make the input box disabled
   useEffect(() => {
-    if (totalQuestionCount as number <= 0) {
+    if (totalQuestionCount <= 0) {
       setDisabled(true);
     } else {
       setDisabled(false);
-      }
+    }
   }, [totalQuestionCount]);
-    
-    
+
   return (
     <Input
-      placeholder={`Select max of ${totalQuestionCount} questions`}
+      className="w-[17rem]"
+      placeholder={`Select maximum of ${totalQuestionCount} questions`}
       disabled={disabled}
+      type="number"
+      min={totalQuestionCount >= 10 ? 10 : totalQuestionCount}
+      max={totalQuestionCount}
+      onChange={(e) =>
+        dispatch(setWorkoutQuestionCount(Number(e.target.value)))
+      }
     />
   );
 }

@@ -14,8 +14,9 @@ export type QuizType = {
     answers: string[];
     currentQuestionIndex: number;
     score: number;
-    category: string;
-    totalQuestions:number
+    category: number;
+    totalQuestions: number
+    workoutQuestionCount:number
 }
 
 const initialState:QuizType = {
@@ -23,8 +24,9 @@ const initialState:QuizType = {
     answers: [],
     currentQuestionIndex: 0,
     score: 0,
-    category: "",
-    totalQuestions:0
+    category: 0,
+    totalQuestions: 0,
+    workoutQuestionCount:0
 }
 
 const quizSlice = createSlice({
@@ -34,15 +36,18 @@ const quizSlice = createSlice({
         setQuestions(state, action: PayloadAction<QuestionType[]>) {
             state.questions = action.payload;
         },
-        setCategory(state, action: PayloadAction<string>) {
+        setCategory(state, action: PayloadAction<number>) {
             state.category = action.payload;
         },
         setTotalQuestionCount(state, action: PayloadAction<number>) {
             state.totalQuestions = action.payload;
+        },
+        setWorkoutQuestionCount(state, action: PayloadAction<number>) {
+            state.workoutQuestionCount = action.payload;
         }
     }
 })
 
 
-export const {setQuestions,setCategory,setTotalQuestionCount } = quizSlice.actions;
+export const {setQuestions,setCategory,setTotalQuestionCount,setWorkoutQuestionCount } = quizSlice.actions;
 export default quizSlice.reducer;

@@ -22,8 +22,8 @@ export default function DropDownMenu({ title, values }: DropDownType) {
   const dispatch = useAppDispatch();
 
   // function to select category
-  const handleSelectCategory = (id: number, category: string) => {
-    dispatch(setCategory(category));
+  const handleSelectCategory = (id: number) => {
+    dispatch(setCategory(id));
     handleFindQuestionCount(id);
   };
 
@@ -51,7 +51,7 @@ export default function DropDownMenu({ title, values }: DropDownType) {
     <Select onValueChange={(value) => {
       const selectedCategory = values.find(ele => ele.name === value);
       if (selectedCategory) {
-        handleSelectCategory(selectedCategory.id,selectedCategory.name)
+        handleSelectCategory(selectedCategory.id)
       }
       
     }}>
