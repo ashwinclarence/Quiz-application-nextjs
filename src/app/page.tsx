@@ -1,6 +1,37 @@
+"use client";
+
 import DropDownMenu from "@/components/dropDownMenu";
+import axios from "axios";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+
+export type CategoryType = {
+  name: string;
+  id: number;
+};
 
 export default function Home() {
+  const [category, setCategory] = useState<CategoryType[]>([]);
+
+  const getCategory = useCallback(async() => {
+    try {
+      let response = await axios.get("https://opentdb.com/api_category.php");
+      setCategory([...response.data.trivia_categories]);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  }, [])
+  
+  // get the number of question in category
+  useEffect(() => {
+    
+  })
+
+  useEffect(() => {
+    getCategory();
+  }, [getCategory]);
+
+
   return (
     <div className="text-center min-h-screen container mx-auto p-8">
       <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
@@ -13,12 +44,16 @@ export default function Home() {
         and keep your mind sharp. Ready for the challenge? Jump into QuizPulse
         now!
       </p>
-      <DropDownMenu title="Subject" values={["soccer"]} />
-      <DropDownMenu title="Subject" values={["soccer"]} />
-      <DropDownMenu title="Subject" values={["soccer"]} />
-      <button className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+      <div className="flex justify-center gap-8 my-8">
+        <DropDownMenu title="Category" values={[...category]} />
+        <DropDownMenu title="Number Of Questions" values={[...category]} />
+      </div>
+      <Link
+        href="/quiz"
+        className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+      >
         Start Quiz
-      </button>
+      </Link>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { CategoryType } from "@/app/page";
 import {
   Select,
   SelectContent,
@@ -8,7 +9,7 @@ import {
 
 type DropDownType = {
     title: string;
-    values: string[];
+    values: CategoryType[];
 };
 
 export default function DropDownMenu({ title,values }: DropDownType) {
@@ -19,7 +20,7 @@ export default function DropDownMenu({ title,values }: DropDownType) {
       </SelectTrigger>
           <SelectContent>
               {values.map((ele) => (
-                  <SelectItem value={ele}>{ele}</SelectItem>
+                  <SelectItem key={ele.id} value={ele.name}>{ele.name}</SelectItem>
               ))}
       </SelectContent>
     </Select>
