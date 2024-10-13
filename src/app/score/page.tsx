@@ -4,18 +4,31 @@ import { useRouter } from "next/navigation";
 import { resetQuiz } from "../lib/features/quiz/quizSlice";
 import { useAppDispatch, useAppSelector } from "../lib/hooks";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function ScorePage() {
-    const [quizStatus, setQuizStatus] = useState<boolean>(true);
-    const dispatch = useAppDispatch();
-    const router = useRouter();
+  const [quizStatus, setQuizStatus] = useState<boolean>(true);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const initialScore = useAppSelector((state) => state.quiz.score) as number;
   const workoutQuestionCount = useAppSelector(
     (state) => state.quiz.workoutQuestionCount
   ) as number;
 
+  const currentQuestionIndex = useAppSelector(
+    (state) => state.quiz.currentQuestionIndex
+  ) as number;
+
   const [score, setScore] = useState(initialScore);
+
+  // validate the user finish the test
+  useEffect(() => {
+    if (currentQuestionIndex + 1 != workoutQuestionCount) {
+      toast("Question are pending");
+      router.push("/quiz");
+    }
+  }, []);
 
   useEffect(() => {
     // Update score after the component mounts
@@ -26,17 +39,16 @@ export default function ScorePage() {
       setQuizStatus(false);
     }
   }, [initialScore]);
-    
-    
-    // function to handle reset the quiz from score board
-    const handleResetQuiz = () => {
-        try {
-            dispatch(resetQuiz());
-            router.push('/');
-        } catch (error:any) {
-            console.log(error.message);
-        }
+
+  // function to handle reset the quiz from score board
+  const handleResetQuiz = () => {
+    try {
+      dispatch(resetQuiz());
+      router.push("/");
+    } catch (error: any) {
+      console.log(error.message);
     }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -56,7 +68,13 @@ export default function ScorePage() {
         >
           {score}/{workoutQuestionCount}
         </p>
-        <button type="button" onClick={handleResetQuiz} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Home</button>
+        <button
+          type="button"
+          onClick={handleResetQuiz}
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        >
+          Home
+        </button>
       </div>
     </div>
   );

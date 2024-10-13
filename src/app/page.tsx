@@ -90,10 +90,10 @@ export default function Home() {
         Test Your Knowledge in a Flash!{" "}
       </h1>
       <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
-        Put your brain to the test with QuizPulse—a fun, fast-paced quiz
+        Put your brain to the test with Quiz—a fun, fast-paced quiz
         platform. Explore a wide range of topics, challenge yourself, and see
         how quickly you can score. Compete with friends, track your progress,
-        and keep your mind sharp. Ready for the challenge? Jump into QuizPulse
+        and keep your mind sharp. Ready for the challenge? Jump into Quiz
         now!
       </p>
       <div className="flex justify-center gap-8 my-8">
