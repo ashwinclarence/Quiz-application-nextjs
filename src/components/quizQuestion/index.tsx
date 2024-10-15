@@ -37,6 +37,7 @@ export default function QuestionQuiz({
       if (answer === correctAnswer) {
         dispatch(incrementScore());
       }
+      // call the function to make the correct answer green
       getCorrectAnswerIndex();
       setTimeout(() => {
         dispatch(setNextQuestionIndex());
@@ -57,6 +58,12 @@ export default function QuestionQuiz({
       console.log(error.message);
     }
   };
+
+  // decode the encoded questions
+  const parser = new DOMParser();
+  const decodedQuestion = parser.parseFromString(question, 'text/html').body.textContent;
+
+
   return (
     <>
       <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
@@ -64,7 +71,7 @@ export default function QuestionQuiz({
           <h2 className="text-xl font-bold text-center">
             Question {currentQuestionIndex + 1} of {workoutQuestionCount}
           </h2>
-          <p className="mt-4 text-lg">{question}</p>
+          <p className="mt-4 text-lg">{decodedQuestion}</p>
 
           <div className="mt-6 space-y-4">
             {options.map((option, index) => (
