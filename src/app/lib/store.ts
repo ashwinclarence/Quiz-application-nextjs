@@ -1,9 +1,9 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import quizReducer from './features/quiz/quizSlice';
+import adminReducer from './features/adminSlice/adminSlice'
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import { ThunkDispatch } from '@reduxjs/toolkit';
-import { PersistPartial } from 'redux-persist/es/persistReducer';
 
 const persistConfig = {
   key: 'root',
@@ -12,6 +12,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   quiz: quizReducer,
+  admin:adminReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
